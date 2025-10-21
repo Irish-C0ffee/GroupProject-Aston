@@ -1,16 +1,14 @@
 package Entity;
 
 public class Person {
-   // static int cnt=0; -Стоит ли добавить для автоматического инкрементции и присвоения id?
+    private static int cnt=0;
     private final int id;
     private  final String name;
     private  final String surname;
     private  final int age;
 
     private Person(Builder builder) {
-        //cnt++;
-        //this.id=builder.name;
-        this.id = builder.id;
+        this.id = ++cnt;
         this.name = builder.name;
         this.surname = builder.surname;
         this.age = builder.age;
@@ -65,10 +63,6 @@ public class Person {
 
     @Override
     public String toString() {
-        return "Person{" + "id='" + id + '\'' +
-                "name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", age=" + age +
-                '}';
+        return "Person{" + "id='" + id + "', " + "name='" + name + "', " + "surname='" + surname + "', " + "age=" + age + '}';
     }
 }
