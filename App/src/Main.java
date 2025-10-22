@@ -1,15 +1,12 @@
 import Entity.Person;
-import filling.Filling;
-import filling.FileFilling;
-import filling.RandomFilling;
-import filling.UserFilling;
+import comparator.PersonComparators;
+import filling.*;
+import service.ThreadPoolSortService;
+import strategy.*;
 
 import java.io.File;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.*;
 
 import static utils.ValidationUtils.validateInt;
 
@@ -66,9 +63,49 @@ public class Main {
     }
 
     private void menuSort() {
+        if (people.isEmpty()) {
+            System.out.println("Список пуст");
+            return;
+        }
+
+        System.out.println("""
+                Выберите поле для сортировки:
+                1. ID
+                2. Имя
+                3. Фамилия
+                4. Возраст
+                """);
+        int fieldChoice = validateInt(sc, 1, 4);
+        Comparator<Person> comparator = switch (fieldChoice) {
+            case 1 -> PersonComparators.BY_ID;
+            case 2 -> PersonComparators.BY_NAME;
+            case 3 -> PersonComparators.BY_SURNAME;
+            case 4 -> PersonComparators.BY_AGE;
+            default -> PersonComparators.BY_ID;
+        };
+
+        System.out.println("""
+                Выберите алгоритм сортировки:
+                1. Пузырьковая сортировка
+                2. Быстрая сортировка
+                """);
+        int sortChoice = validateInt(sc, 1, 2);
+        SortStrategy<Person> strategy = switch (sortChoice) {
+            case 1 -> new BubbleSortStrategy<>();
+            case 2 -> new QuickSortStrategy<>();
+            default -> new BubbleSortStrategy<>();
+        };
+
+        try (ThreadPoolSortService<Person> sortService = new ThreadPoolSortService<>(2)) {
+            sortService.sort(people, comparator, strategy);
+        }
     }
 
     private void print() {
+        if (people.isEmpty()) {
+            System.out.println("Список пуст");
+            return;
+        }
         people.forEach(System.out::println);
     }
 

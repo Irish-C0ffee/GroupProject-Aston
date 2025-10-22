@@ -10,6 +10,6 @@ public class PersonComparators {
 
     public static final Comparator<Person> BY_SURNAME= Comparator.comparing(Person::getSurname);
 
-    public static final Comparator<Person> BY_Age = Comparator.comparingInt(Person::getAge);
+    public static final Comparator<Person> BY_AGE = Comparator.comparingInt(Person::getAge);
 
 }
