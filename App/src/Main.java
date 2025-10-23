@@ -1,16 +1,22 @@
 import Entity.Person;
-import filling.Filling;
+import exception.WorkingWithFileException;
 import filling.FileFilling;
+import filling.Filling;
 import filling.RandomFilling;
 import filling.UserFilling;
 
-import java.io.File;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
+import static java.nio.file.StandardOpenOption.APPEND;
+import static java.nio.file.StandardOpenOption.CREATE;
 import static utils.ValidationUtils.validateInt;
 
 public class Main {
@@ -76,14 +82,30 @@ public class Main {
     }
 
     private void save() {
-        String filePath;
-        System.out.println("Укажите путь к файлу:");
-        filePath = sc.nextLine().trim();
-        File file = new File(filePath);
-        if (file.exists()) {
-            Path path = file.toPath();
-        } else {
-            System.out.println("Файл не найден!");
+        if (people.isEmpty()) {
+            System.out.println("Данных для записи нет");
+            return;
         }
+        System.out.println("Укажите путь к файлу:");
+        String filePath = sc.nextLine().trim();
+        writeFile(Path.of(filePath));
+    }
+
+    private void writeFile(Path path) {
+        try (BufferedWriter writer = Files.newBufferedWriter(path, StandardCharsets.UTF_8, CREATE, APPEND)) {
+            people.stream()
+                    .map(person -> String.format("%s %s %d\n", person.getName(), person.getSurname(), person.getAge()))
+                    .forEach(str -> {
+                        try {
+                            writer.write(str);
+                        } catch (IOException e) {
+                            throw new WorkingWithFileException("Сбой операции записи файла", e);
+                        }
+                    });
+        } catch (IOException | WorkingWithFileException e) {
+            System.out.println("Сбой операции записи файла");
+            return;
+        }
+        System.out.println("Данные записаны в файл " + path);
     }
 }
