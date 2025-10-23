@@ -31,15 +31,9 @@ public class Person {
     }
 
     public static class Builder {
-        private int id;
         private String name;
         private String surname;
         private int age;
-
-        public Builder id(int id) {
-            this.id = id;
-            return this;
-        }
 
         public Builder name(String name) {
             this.name = name;
