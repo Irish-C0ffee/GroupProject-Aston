@@ -1,13 +1,14 @@
 import Entity.Person;
+import comparator.PersonComparators;
 import exception.WorkingWithFileException;
 import filling.FileFilling;
 import filling.Filling;
 import filling.RandomFilling;
 import filling.UserFilling;
-import comparator.PersonComparators;
-import filling.*;
 import service.ThreadPoolSortService;
-import strategy.*;
+import strategy.BubbleSortStrategy;
+import strategy.QuickSortStrategy;
+import strategy.SortStrategy;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -21,11 +22,16 @@ import static java.nio.file.StandardOpenOption.CREATE;
 import static utils.ValidationUtils.validateInt;
 
 public class Main {
-    private final Scanner sc = new Scanner(System.in);
-    private final List<Person> people = new ArrayList<>();
+    private final Scanner sc;
+    private final List<Person> people;
+
+    public Main(Scanner sc, List<Person> people) {
+        this.sc = sc;
+        this.people = people;
+    }
 
     public static void main(String[] args) {
-        new Main().start();
+        new Main(new Scanner(System.in), new ArrayList<>()).start();
     }
 
     public void start() {
@@ -111,7 +117,7 @@ public class Main {
         }
     }
 
-    private void print() {
+     void print() {
         if (people.isEmpty()) {
             System.out.println("Список пуст");
             return;
@@ -120,9 +126,13 @@ public class Main {
     }
 
     private void find() {
+        if (people.isEmpty()) {
+            System.out.println("Список пуст");
+            return;
+        }
     }
 
-    private void save() {
+    void save() {
         if (people.isEmpty()) {
             System.out.println("Данных для записи нет");
             return;

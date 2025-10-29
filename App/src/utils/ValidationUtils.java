@@ -33,13 +33,12 @@ public class ValidationUtils {
         if (isNameValid(line)) {
             return line;
         } else {
-            System.out.println("Количество символов одного значения не должно превышать 20, допускаются только буквенные символы.\n" +
-                    "Количество значений должно соответствовать указанному размеру");
+            System.out.println("Количество символов одного значения не должно превышать 20, допускаются только буквенные символы." );
         }
         return null;
     }
 
     private static boolean isNameValid(String s) {
-        return s.matches("[а-яА-ЯёЁ]+") && s.length() > 1 && s.length() <= 20;
+        return s.matches("^[A-Za-zа-яА-ЯёЁ]{2,20}$");
     }
 }

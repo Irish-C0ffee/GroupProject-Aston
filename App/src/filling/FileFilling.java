@@ -28,7 +28,7 @@ public class FileFilling implements Filling {
         }
     }
 
-    public static void read(int size, Path path, List<Person> people) {
+    private static void read(int size, Path path, List<Person> people) {
         try (BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
 
             reader.lines()
