@@ -1,6 +1,6 @@
 package filling;
 
-import Entity.Person;
+import entity.Person;
 
 import java.util.List;
 import java.util.Scanner;

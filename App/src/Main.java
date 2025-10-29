@@ -1,4 +1,4 @@
-import Entity.Person;
+import entity.Person;
 import comparator.PersonComparators;
 import exception.WorkingWithFileException;
 import filling.FileFilling;
@@ -37,13 +37,14 @@ public class Main {
     public void start() {
         try (sc) {
             while (true) {
-                System.out.println("Выберите пункт меню");
+                System.out.println("Меню");
                 System.out.println("1. Добавить данные");
                 System.out.println("2. Отсортировать данные");
                 System.out.println("3. Сохранить данные");
                 System.out.println("4. Вывести на консоль");
                 System.out.println("5. Найти");
                 System.out.println("6. Выйти");
+                System.out.println("Выберите пункт меню:");
                 int choice = validateInt(sc, 1, 6);
                 switch (choice) {
                     case 1 -> menuAdd();
@@ -130,6 +131,7 @@ public class Main {
             System.out.println("Список пуст");
             return;
         }
+
     }
 
     void save() {

@@ -1,6 +1,7 @@
-package filling;
+package test;
 
-import Entity.Person;
+import entity.Person;
+import filling.FileFilling;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,7 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class FileFillingTest {
+public class
+FileFillingTest {
 
     private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     private Scanner scanner;

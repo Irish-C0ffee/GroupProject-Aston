@@ -1,6 +1,6 @@
 package filling;
 
-import Entity.Person;
+import entity.Person;
 import utils.ValidationUtils;
 
 import java.io.BufferedReader;

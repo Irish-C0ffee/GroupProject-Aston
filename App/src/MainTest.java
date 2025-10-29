@@ -1,4 +1,4 @@
-import Entity.Person;
+import entity.Person;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,17 +14,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class MainTest {
     private final static String mainMenu =
-            "Выберите пункт меню" + System.lineSeparator() +
+            "Меню" + System.lineSeparator() +
             "1. Добавить данные" + System.lineSeparator() +
             "2. Отсортировать данные" + System.lineSeparator() +
             "3. Сохранить данные" + System.lineSeparator() +
             "4. Вывести на консоль" + System.lineSeparator() +
             "5. Найти" + System.lineSeparator() +
-            "6. Выйти" + System.lineSeparator();
+            "6. Выйти" + System.lineSeparator() +
+            "Выберите пункт меню:" + System.lineSeparator() ;
 
     private final static String addMenu = """
             Выберите способ добавления данных:
@@ -38,7 +39,7 @@ public class MainTest {
     private final List<Person> people = new ArrayList<>();
 
     @BeforeEach
-    void init() {
+     void init() {
         PrintStream printStream = new PrintStream(outputStream);
         System.setOut(printStream);
     }

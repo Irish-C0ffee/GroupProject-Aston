@@ -1,5 +1,5 @@
 package comparator;
-import Entity.Person;
+import entity.Person;
 import java.util.Comparator;
 
 public class PersonComparators {

@@ -1,4 +1,4 @@
-package Entity;
+package entity;
 
 public class Person {
     private static int cnt=0;
