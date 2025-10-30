@@ -169,7 +169,7 @@ public class Main {
             return;
         }
         //people.forEach(System.out::println);
-        int count = 0;
+        int count = 1;
         for (Person s : people) {
             System.out.println(count + ") " + s);
             count++;
@@ -181,21 +181,7 @@ public class Main {
             System.out.println("Список пуст");
             return;
         }
-//                System.out.println("""
-//                Выберите поле для поиска:
-//                1. ID
-//                2. Имя
-//                3. Фамилия
-//                4. Возраст
-//                """);
-//        int fieldChoice = validateInt(sc, 1, 4);
-//        Comparator<Person> comparator = switch (fieldChoice) {
-//            case 1 -> PersonComparators.BY_ID;
-//            case 2 -> PersonComparators.BY_NAME;
-//            case 3 -> PersonComparators.BY_SURNAME;
-//            case 4 -> PersonComparators.BY_AGE;
-//            default -> PersonComparators.BY_ID;
-//        };
+
         System.out.println("""
                 Выберите поле для поиска:
                 1. Имя
@@ -214,11 +200,7 @@ public class Main {
         }
         System.out.println("Введите значение для поиска:");
         Person searchKey = null;
-//        if(fieldChoice==1) {
-//            int value = validateInt(sc, 1, 1000);
-//            if (value> people.size())
-//                System.out.println("Элемент не найден");
-//        }
+
 
         if (fieldChoice == 1) {
             String name = null;
