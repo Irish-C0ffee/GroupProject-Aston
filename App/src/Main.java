@@ -169,7 +169,7 @@ public class Main {
             return;
         }
         //people.forEach(System.out::println);
-        int count = 1;
+        int count = 0;
         for (Person s : people) {
             System.out.println(count + ") " + s);
             count++;
