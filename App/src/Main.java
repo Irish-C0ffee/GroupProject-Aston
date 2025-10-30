@@ -6,7 +6,7 @@ import filling.Filling;
 import filling.RandomFilling;
 import filling.UserFilling;
 import search.BinarySearch;
-import search.ThreadSearchRunner;
+import search.ThreadSearch;
 import service.ThreadPoolSortService;
 import strategy.BubbleSortStrategy;
 import strategy.EvenFieldSortStrategy;
@@ -233,11 +233,11 @@ public class Main {
             else System.out.println("Индекс элемента:  " + index);
         } else {
             if (comparator == PersonComparators.BY_NAME){
-                ThreadSearchRunner.findCount(people, searchKey.getName(), Person::getName);
+                ThreadSearch.findCount(people, searchKey.getName(), Person::getName);
             } else if (comparator == PersonComparators.BY_SURNAME) {
-                ThreadSearchRunner.findCount(people, searchKey.getSurname(), Person::getSurname);
+                ThreadSearch.findCount(people, searchKey.getSurname(), Person::getSurname);
             } else {
-                ThreadSearchRunner.findCount(people, searchKey.getAge(), Person::getAge);
+                ThreadSearch.findCount(people, searchKey.getAge(), Person::getAge);
             }
         }
     }
