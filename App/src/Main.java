@@ -5,6 +5,7 @@ import filling.FileFilling;
 import filling.Filling;
 import filling.RandomFilling;
 import filling.UserFilling;
+import search.BinarySearch;
 import service.ThreadPoolSortService;
 import strategy.BubbleSortStrategy;
 import strategy.QuickSortStrategy;
@@ -20,10 +21,12 @@ import java.util.*;
 import static java.nio.file.StandardOpenOption.APPEND;
 import static java.nio.file.StandardOpenOption.CREATE;
 import static utils.ValidationUtils.validateInt;
+import static utils.ValidationUtils.validateName;
 
 public class Main {
     private final Scanner sc;
     private final List<Person> people;
+
 
     public Main(Scanner sc, List<Person> people) {
         this.sc = sc;
@@ -118,12 +121,17 @@ public class Main {
         }
     }
 
-     void print() {
+    void print() {
         if (people.isEmpty()) {
             System.out.println("Список пуст");
             return;
         }
-        people.forEach(System.out::println);
+        //people.forEach(System.out::println);
+        int count = 0;
+        for (Person s : people) {
+            System.out.println(count + ") " + s);
+            count++;
+        }
     }
 
     private void find() {
@@ -131,7 +139,61 @@ public class Main {
             System.out.println("Список пуст");
             return;
         }
+//                System.out.println("""
+//                Выберите поле для поиска:
+//                1. ID
+//                2. Имя
+//                3. Фамилия
+//                4. Возраст
+//                """);
+//        int fieldChoice = validateInt(sc, 1, 4);
+//        Comparator<Person> comparator = switch (fieldChoice) {
+//            case 1 -> PersonComparators.BY_ID;
+//            case 2 -> PersonComparators.BY_NAME;
+//            case 3 -> PersonComparators.BY_SURNAME;
+//            case 4 -> PersonComparators.BY_AGE;
+//            default -> PersonComparators.BY_ID;
+//        };
+        System.out.println("""
+                Выберите поле для поиска:
+                1. Имя
+                2. Фамилия
+                3. Возраст
+                """);
+        int fieldChoice = validateInt(sc, 1, 3);
+        Comparator<Person> comparator = switch (fieldChoice) {
+            case 1 -> PersonComparators.BY_NAME;
+            case 2 -> PersonComparators.BY_SURNAME;
+            case 3 -> PersonComparators.BY_AGE;
+            default -> PersonComparators.BY_NAME;
+        };
+        try (ThreadPoolSortService<Person> sortService = new ThreadPoolSortService<>(2)) {
+            sortService.sort(people, comparator, new QuickSortStrategy<>());
+        }
+        System.out.println("Введите значение для поиска:");
+        Person searchKey = null;
+//        if(fieldChoice==1) {
+//            int value = validateInt(sc, 1, 1000);
+//            if (value> people.size())
+//                System.out.println("Элемент не найден");
+//        }
 
+        if(fieldChoice==1) {
+            String name = validateName(sc);
+             searchKey = new Person.Builder().name(name).surname("").age(0).build();
+        }
+        if(fieldChoice==2) {
+            String name = validateName(sc);
+            searchKey = new Person.Builder().name("").surname(name).age(0).build();
+        }
+        if(fieldChoice==3) {
+            int value = validateInt(sc, 1, 123);
+            searchKey = new Person.Builder().name("").surname("").age(value).build();
+        }
+        int index = BinarySearch.binarySearch(people,searchKey,comparator);
+        if (index==-1)
+            System.out.println("Элемент не найден");
+        else System.out.println("Индекс элемента:  " + index);
     }
 
     void save() {
