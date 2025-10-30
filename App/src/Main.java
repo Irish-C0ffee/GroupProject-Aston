@@ -8,6 +8,7 @@ import filling.UserFilling;
 import search.BinarySearch;
 import service.ThreadPoolSortService;
 import strategy.BubbleSortStrategy;
+import strategy.EvenFieldSortStrategy;
 import strategy.QuickSortStrategy;
 import strategy.SortStrategy;
 
