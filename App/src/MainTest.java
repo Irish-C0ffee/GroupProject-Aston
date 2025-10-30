@@ -171,8 +171,8 @@ public class MainTest {
         Main main = new Main(null, people);
         main.print();
 
-        String expected = person1.toString() + System.lineSeparator()
-                + person2.toString() + System.lineSeparator();
+        String expected ="0) "+ person1.toString() + System.lineSeparator()
+                +"1) " + person2.toString() + System.lineSeparator();
 
         assertEquals(expected, outputStream.toString());
     }

@@ -6,6 +6,7 @@ import filling.Filling;
 import filling.RandomFilling;
 import filling.UserFilling;
 import search.BinarySearch;
+import search.ThreadSearchRunner;
 import service.ThreadPoolSortService;
 import strategy.BubbleSortStrategy;
 import strategy.EvenFieldSortStrategy;
@@ -219,22 +220,44 @@ public class Main {
 //                System.out.println("Элемент не найден");
 //        }
 
-        if(fieldChoice==1) {
-            String name = validateName(sc);
-             searchKey = new Person.Builder().name(name).surname("").age(0).build();
+        if (fieldChoice == 1) {
+            String name = null;
+            while (name == null) {
+                name = validateName(sc);
+                searchKey = new Person.Builder().name(name).surname("").age(0).build();
+            }
         }
-        if(fieldChoice==2) {
-            String name = validateName(sc);
-            searchKey = new Person.Builder().name("").surname(name).age(0).build();
+        if (fieldChoice == 2) {
+            String name = null;
+            while (name == null) {
+                name = validateName(sc);
+                searchKey = new Person.Builder().name("").surname(name).age(0).build();
+            }
         }
-        if(fieldChoice==3) {
+        if (fieldChoice == 3) {
             int value = validateInt(sc, 1, 123);
             searchKey = new Person.Builder().name("").surname("").age(value).build();
         }
-        int index = BinarySearch.binarySearch(people,searchKey,comparator);
-        if (index==-1)
-            System.out.println("Элемент не найден");
-        else System.out.println("Индекс элемента:  " + index);
+        System.out.println("""
+                Выбирите тип поиска:
+                1.Найти элемент коллекции.
+                2.Найти количество вхождений элемента в коллекцию.
+                """);
+        int FindChoice = validateInt(sc, 1, 2);
+        if (FindChoice == 1) {
+            int index = BinarySearch.binarySearch(people, searchKey, comparator);
+            if (index == -1)
+                System.out.println("Элемент не найден");
+            else System.out.println("Индекс элемента:  " + index);
+        } else {
+            if (comparator == PersonComparators.BY_NAME){
+                ThreadSearchRunner.findCount(people, searchKey.getName(), Person::getName);
+            } else if (comparator == PersonComparators.BY_SURNAME) {
+                ThreadSearchRunner.findCount(people, searchKey.getSurname(), Person::getSurname);
+            } else {
+                ThreadSearchRunner.findCount(people, searchKey.getAge(), Person::getAge);
+            }
+        }
     }
 
     void save() {
