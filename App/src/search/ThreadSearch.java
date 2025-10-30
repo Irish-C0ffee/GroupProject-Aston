@@ -4,12 +4,12 @@ import java.util.List;
 import java.util.concurrent.*;
 import java.util.function.Function;
 
-public class ThreadSearchRunner {
+public class ThreadSearch {
 
     public static <T, E extends Comparable<E>> void findCount(List<T> list, E key, Function<T, E> mapper) {
         try (ExecutorService threadPool = Executors.newFixedThreadPool(2)) {
-            Future<Integer> first = threadPool.submit(() -> new ThreadSearchRunner().findFirstIndex(list, key, mapper));
-            Future<Integer> last = threadPool.submit(() -> new ThreadSearchRunner().findLastIndex(list, key, mapper));
+            Future<Integer> first = threadPool.submit(() -> new ThreadSearch().findFirstIndex(list, key, mapper));
+            Future<Integer> last = threadPool.submit(() -> new ThreadSearch().findLastIndex(list, key, mapper));
 
             Integer firstIndex = first.get();
             Integer lastIndex = last.get();
