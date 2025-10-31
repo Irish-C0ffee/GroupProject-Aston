@@ -28,7 +28,7 @@ public class UserFilling implements Filling {
             }
 
             System.out.print("Введите возраст: ");
-            int age = validateInt(sc, 1, 123);
+            int age = validateInt(sc, 1, 125);
             people.add(new Person.Builder().surname(surname).name(name).age(age).build());
             count++;
         }
