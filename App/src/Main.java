@@ -1,6 +1,5 @@
-import entity.Person;
 import comparator.PersonComparators;
-import exception.WorkingWithFileException;
+import entity.Person;
 import filling.FileFilling;
 import filling.Filling;
 import filling.RandomFilling;
@@ -12,17 +11,12 @@ import strategy.BubbleSortStrategy;
 import strategy.EvenFieldSortStrategy;
 import strategy.QuickSortStrategy;
 import strategy.SortStrategy;
+import writer.FileWriter;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.function.Function;
 
-import static java.nio.file.StandardOpenOption.APPEND;
-import static java.nio.file.StandardOpenOption.CREATE;
 import static utils.ValidationUtils.validateInt;
 import static utils.ValidationUtils.validateName;
 
@@ -226,18 +220,37 @@ public class Main {
                 2.Найти количество вхождений элемента в коллекцию.
                 """);
         int FindChoice = validateInt(sc, 1, 2);
+        List<Person> foundPerson = Collections.emptyList();
         if (FindChoice == 1) {
             int index = BinarySearch.binarySearch(people, searchKey, comparator);
             if (index == -1)
                 System.out.println("Элемент не найден");
-            else System.out.println("Индекс элемента:  " + index);
+            else {
+                System.out.println("Индекс элемента:  " + index);
+                foundPerson = List.of(people.get(index));
+            }
         } else {
-            if (comparator == PersonComparators.BY_NAME){
-                ThreadSearch.findCount(people, searchKey.getName(), Person::getName);
+            if (comparator == PersonComparators.BY_NAME) {
+                foundPerson = ThreadSearch.findCount(people, searchKey.getName(), Person::getName);
             } else if (comparator == PersonComparators.BY_SURNAME) {
-                ThreadSearch.findCount(people, searchKey.getSurname(), Person::getSurname);
+                foundPerson = ThreadSearch.findCount(people, searchKey.getSurname(), Person::getSurname);
             } else {
-                ThreadSearch.findCount(people, searchKey.getAge(), Person::getAge);
+                foundPerson = ThreadSearch.findCount(people, searchKey.getAge(), Person::getAge);
+            }
+        }
+        for (Person person : foundPerson) {
+            System.out.println(person);
+        }
+        if (!foundPerson.isEmpty()) {
+            System.out.println("""
+                Записать найденные данные в файл:
+                1.Да
+                2.Нет""");
+            int needSave = validateInt(sc, 1, 2);
+            if (needSave == 1) {
+                System.out.println("Укажите путь к файлу:");
+                String filePath = sc.nextLine().trim();
+                FileWriter.writeFile(foundPerson, Path.of(filePath));
             }
         }
     }
@@ -249,24 +262,6 @@ public class Main {
         }
         System.out.println("Укажите путь к файлу:");
         String filePath = sc.nextLine().trim();
-        writeFile(Path.of(filePath));
-    }
-
-    private void writeFile(Path path) {
-        try (BufferedWriter writer = Files.newBufferedWriter(path, StandardCharsets.UTF_8, CREATE, APPEND)) {
-            people.stream()
-                    .map(person -> String.format("%s %s %d\n", person.getName(), person.getSurname(), person.getAge()))
-                    .forEach(str -> {
-                        try {
-                            writer.write(str);
-                        } catch (IOException e) {
-                            throw new WorkingWithFileException("Сбой операции записи файла", e);
-                        }
-                    });
-        } catch (IOException | WorkingWithFileException e) {
-            System.out.println("Сбой операции записи файла");
-            return;
-        }
-        System.out.println("Данные записаны в файл " + path);
+        FileWriter.writeFile(people, Path.of(filePath));
     }
 }

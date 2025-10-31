@@ -1,12 +1,13 @@
 package search;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.*;
 import java.util.function.Function;
 
 public class ThreadSearch {
 
-    public static <T, E extends Comparable<E>> void findCount(List<T> list, E key, Function<T, E> mapper) {
+    public static <T, E extends Comparable<E>> List<T> findCount(List<T> list, E key, Function<T, E> mapper) {
         try (ExecutorService threadPool = Executors.newFixedThreadPool(2)) {
             Future<Integer> first = threadPool.submit(() -> new ThreadSearch().findFirstIndex(list, key, mapper));
             Future<Integer> last = threadPool.submit(() -> new ThreadSearch().findLastIndex(list, key, mapper));
@@ -20,6 +21,7 @@ public class ThreadSearch {
                 result = lastIndex - firstIndex + 1;
             }
             System.out.printf("Количество найденных элементов: %d\n", result);
+            return firstIndex == -1 ? Collections.emptyList() : list.subList(firstIndex, lastIndex + 1);
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
