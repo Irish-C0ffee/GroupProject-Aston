@@ -69,7 +69,7 @@ public class MainTest {
         Main main = new Main(scanner, new ArrayList<>());
         main.start();
         String expected = mainMenu
-                + "Список пуст" + System.lineSeparator()
+                + "Список пуст." + System.lineSeparator()
                 + mainMenu;
 
         Assertions.assertEquals(expected, outputStream.toString());
